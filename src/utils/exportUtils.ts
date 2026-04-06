@@ -1,16 +1,32 @@
-import { getGradientColor } from './colorPalette';
+import { ThemeMode } from '../types';
+import { getGradientColor, getThemeAdjustedPalette } from './colorPalette';
 
-export const generateSVGString = (matrix: number[][], colors: string[], size: number = 16, gap: number = 2) => {
+interface ExportOptions {
+  gap?: number;
+  size?: number;
+  theme?: ThemeMode;
+}
+
+export const generateSVGString = (
+  matrix: number[][],
+  colors: string[],
+  {
+    size = 16,
+    gap = 2,
+    theme = 'dark',
+  }: ExportOptions = {},
+) => {
   const rows = matrix.length;
   const cols = Math.max(...matrix.map(r => r.length));
   const width = cols * size + (cols - 1) * gap;
   const height = rows * size + (rows - 1) * gap;
+  const renderColors = getThemeAdjustedPalette(colors, theme);
 
   let rects = '';
   matrix.forEach((row, rIdx) => {
     row.forEach((val, cIdx) => {
       if (val) {
-        const color = getGradientColor(colors, rows > 1 ? rIdx / (rows - 1) : 0);
+        const color = getGradientColor(renderColors, rows > 1 ? rIdx / (rows - 1) : 0);
         const x = cIdx * (size + gap);
         const y = rIdx * (size + gap);
         rects += `  <rect x="${x}" y="${y}" width="${size}" height="${size}" fill="${color}" rx="2" />\n`;
@@ -21,13 +37,21 @@ export const generateSVGString = (matrix: number[][], colors: string[], size: nu
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">\n${rects}</svg>`;
 };
 
-export const downloadPNG = (matrix: number[][], colors: string[], filename: string) => {
+export const downloadPNG = (
+  matrix: number[][],
+  colors: string[],
+  filename: string,
+  {
+    theme = 'dark',
+  }: ExportOptions = {},
+) => {
   const size = 32; // High res for download
   const gap = 4;
   const rows = matrix.length;
   const cols = Math.max(...matrix.map(r => r.length));
   const width = cols * size + (cols - 1) * gap;
   const height = rows * size + (rows - 1) * gap;
+  const renderColors = getThemeAdjustedPalette(colors, theme);
 
   const canvas = document.createElement('canvas');
   canvas.width = width;
@@ -38,7 +62,7 @@ export const downloadPNG = (matrix: number[][], colors: string[], filename: stri
   matrix.forEach((row, rIdx) => {
     row.forEach((val, cIdx) => {
       if (val) {
-        const color = getGradientColor(colors, rows > 1 ? rIdx / (rows - 1) : 0);
+        const color = getGradientColor(renderColors, rows > 1 ? rIdx / (rows - 1) : 0);
         ctx.fillStyle = color;
         const x = cIdx * (size + gap);
         const y = rIdx * (size + gap);

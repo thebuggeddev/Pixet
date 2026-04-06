@@ -1,11 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-sans: "Avenir Next", "Segoe UI", "Inter", "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --color-accent: #E58A63;
+}
+
+:root {
+  color-scheme: dark;
+  --color-accent: #E58A63;
+  --color-accent-strong: #d4744c;
+  --color-accent-contrast: #140d08;
   --color-bg: #050505;
+  --color-surface: #0a0a0a;
+  --color-text: #f8f8f5;
+  --color-text-muted: #8f9097;
+  --color-text-soft: #62646d;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-strong: rgba(255, 255, 255, 0.24);
+  --color-crosshair: rgba(255, 255, 255, 0.28);
+  --color-logo-muted: rgba(255, 255, 255, 0.2);
+  --color-hatch: rgba(255, 255, 255, 0.04);
+  --color-overlay: rgba(0, 0, 0, 0.8);
+  --color-hover-surface: rgba(255, 255, 255, 0.05);
+  --color-search-placeholder: #565a64;
+  --color-card-shadow: rgba(0, 0, 0, 0.34);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --color-accent-strong: #cb724d;
+  --color-accent-contrast: #1d140d;
+  --color-bg: #f5efe6;
+  --color-surface: #fbf7f0;
+  --color-text: #17120d;
+  --color-text-muted: #706657;
+  --color-text-soft: #978b7c;
+  --color-border: rgba(37, 23, 8, 0.13);
+  --color-border-strong: rgba(37, 23, 8, 0.26);
+  --color-crosshair: rgba(37, 23, 8, 0.22);
+  --color-logo-muted: rgba(23, 18, 13, 0.16);
+  --color-hatch: rgba(109, 82, 37, 0.08);
+  --color-overlay: rgba(241, 234, 224, 0.78);
+  --color-hover-surface: rgba(23, 18, 13, 0.05);
+  --color-search-placeholder: #a49481;
+  --color-card-shadow: rgba(71, 46, 18, 0.12);
+}
+
+html, body, #root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.min-h-screen ::selection {
+  background: color-mix(in srgb, var(--color-accent) 28%, transparent);
 }
 
 .bg-hatch {
@@ -13,16 +67,16 @@
     45deg,
     transparent,
     transparent 4px,
-    rgba(255, 255, 255, 0.04) 4px,
-    rgba(255, 255, 255, 0.04) 5px
+    var(--color-hatch) 4px,
+    var(--color-hatch) 5px
   );
 }
 
 @keyframes pixelColorCycle {
-  0% { background-color: var(--c1); box-shadow: 0 0 var(--blur) var(--c1-shadow); }
-  33% { background-color: var(--c2); box-shadow: 0 0 var(--blur) var(--c2-shadow); }
-  66% { background-color: var(--c3); box-shadow: 0 0 var(--blur) var(--c3-shadow); }
-  100% { background-color: var(--c1); box-shadow: 0 0 var(--blur) var(--c1-shadow); }
+  0% { background-color: var(--c1); box-shadow: var(--shadow-1); }
+  33% { background-color: var(--c2); box-shadow: var(--shadow-2); }
+  66% { background-color: var(--c3); box-shadow: var(--shadow-3); }
+  100% { background-color: var(--c1); box-shadow: var(--shadow-1); }
 }
 
 .pixel-animate {
@@ -31,4 +85,207 @@
 
 .pixel-transition {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.icon-card {
+  cursor: pointer;
+  text-align: inherit;
+  transform: translateY(0) scale(1);
+  contain: content;
+  content-visibility: auto;
+  contain-intrinsic-size: 184px 180px;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
+  will-change: transform;
+}
+
+.icon-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 28px var(--color-card-shadow);
+}
+
+.icon-card:active {
+  transform: translateY(-1px) scale(0.992);
+}
+
+.editor-library-card {
+  min-height: 136px;
+  transform: translateY(0) scale(1);
+  contain: content;
+  content-visibility: auto;
+  contain-intrinsic-size: 136px 118px;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.editor-library-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px var(--color-card-shadow);
+}
+
+.editor-transparent-canvas {
+  background:
+    linear-gradient(45deg, color-mix(in srgb, var(--color-border) 72%, transparent) 25%, transparent 25%, transparent 75%, color-mix(in srgb, var(--color-border) 72%, transparent) 75%),
+    linear-gradient(45deg, color-mix(in srgb, var(--color-border) 72%, transparent) 25%, transparent 25%, transparent 75%, color-mix(in srgb, var(--color-border) 72%, transparent) 75%);
+  background-position: 0 0, 10px 10px;
+  background-size: 20px 20px;
+}
+
+.modal-panel {
+  will-change: transform, opacity;
+}
+
+.theme-transition-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 120;
+  overflow: hidden;
+  isolation: isolate;
+  contain: strict;
+  will-change: opacity;
+  transform: translateZ(0);
+  --theme-transition-ambient:
+    linear-gradient(
+      118deg,
+      rgba(255, 251, 244, 0.34) 0%,
+      rgba(247, 239, 229, 0.36) 46%,
+      rgba(255, 253, 248, 0.32) 100%
+    );
+  --theme-transition-pixel: rgba(255, 255, 255, 0.95);
+  --theme-transition-pixel-soft: rgba(235, 226, 214, 0.9);
+  --theme-transition-pixel-accent: rgba(255, 255, 255, 1);
+  --theme-transition-sweep:
+    linear-gradient(
+      102deg,
+      transparent 34%,
+      rgba(250, 244, 236, 0.26) 45%,
+      rgba(255, 255, 255, 0.74) 50%,
+      rgba(240, 232, 220, 0.36) 55%,
+      transparent 66%
+    );
+  --theme-transition-burst:
+    radial-gradient(
+      circle at 36% 30%,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(250, 244, 236, 0.7) 24%,
+      rgba(236, 226, 212, 0.36) 52%,
+      rgba(236, 226, 212, 0) 74%
+    );
+}
+
+.theme-transition-overlay[data-theme='dark'] {
+  --theme-transition-ambient:
+    linear-gradient(
+      118deg,
+      rgba(9, 10, 12, 0.66) 0%,
+      rgba(15, 17, 22, 0.68) 46%,
+      rgba(6, 7, 9, 0.7) 100%
+    );
+  --theme-transition-pixel: rgba(30, 33, 38, 0.94);
+  --theme-transition-pixel-soft: rgba(44, 48, 56, 0.9);
+  --theme-transition-pixel-accent: rgba(118, 126, 140, 0.86);
+  --theme-transition-sweep:
+    linear-gradient(
+      102deg,
+      transparent 34%,
+      rgba(44, 50, 60, 0.32) 45%,
+      rgba(118, 126, 140, 0.44) 50%,
+      rgba(40, 45, 54, 0.36) 55%,
+      transparent 66%
+    );
+  --theme-transition-burst:
+    radial-gradient(
+      circle at 34% 30%,
+      rgba(128, 136, 148, 0.6) 0%,
+      rgba(82, 88, 100, 0.52) 24%,
+      rgba(34, 38, 45, 0.44) 52%,
+      rgba(34, 38, 45, 0) 74%
+    );
+}
+
+.theme-transition-overlay__ambient,
+.theme-transition-overlay__pixel-field {
+  position: absolute;
+  inset: 0;
+}
+
+.theme-transition-overlay__ambient {
+  background: var(--theme-transition-ambient);
+  will-change: opacity;
+}
+
+.theme-transition-overlay__pixel-field {
+  will-change: opacity;
+}
+
+.theme-transition-overlay__sweep {
+  position: absolute;
+  inset: -14%;
+  background: var(--theme-transition-sweep);
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+
+.theme-transition-overlay__pixel {
+  position: absolute;
+  background: var(--theme-transition-pixel);
+  image-rendering: pixelated;
+  will-change: transform, opacity;
+}
+
+.theme-transition-overlay__pixel--soft {
+  background: var(--theme-transition-pixel-soft);
+}
+
+.theme-transition-overlay__pixel--accent {
+  background: var(--theme-transition-pixel-accent);
+}
+
+.theme-transition-overlay__burst-anchor {
+  position: absolute;
+  left: var(--theme-origin-x);
+  top: var(--theme-origin-y);
+  width: min(26vmax, 340px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+.theme-transition-overlay__burst {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: var(--theme-transition-burst);
+  will-change: transform, opacity;
+}
+
+.theme-transition-overlay__halo {
+  position: absolute;
+  inset: -24%;
+  border: 1px solid color-mix(in srgb, var(--theme-transition-pixel-accent) 54%, transparent);
+  border-radius: 12px;
+  will-change: transform, opacity;
+}
+
+:root.theme-transitioning .transition-colors,
+:root.theme-transitioning .transition-all,
+:root.theme-transitioning .pixel-transition,
+:root.theme-transitioning body {
+  transition-duration: 0s !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-animate {
+    animation: none !important;
+  }
+
+  .icon-card,
+  .editor-library-card,
+  .modal-panel {
+    transition-duration: 0.01ms !important;
+  }
 }
